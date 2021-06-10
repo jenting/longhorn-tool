@@ -1,0 +1,10 @@
+# Install grpcurl
+apt-get update
+apt-get install -y wget
+wget https://github.com/fullstorydev/grpcurl/releases/download/v1.8.0/grpcurl_1.8.0_linux_x86_64.tar.gz
+tar -zxvf grpcurl_1.8.0_linux_x86_64.tar.gz
+mv grpcurl /usr/local/bin/
+
+# Call instance manager gRPC APIs
+wget https://raw.githubusercontent.com/longhorn/longhorn-instance-manager/master/pkg/rpc/rpc.proto
+grpcurl -d '' -plaintext -import-path ./ -proto rpc.proto 10.42.4.168:8500 ProcessManagerService/ProcessList
