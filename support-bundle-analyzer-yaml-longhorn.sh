@@ -15,13 +15,13 @@ echo "instancemanagers.longhorn.io"
 find ./yamls/longhorn -name instancemanagers.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"STATUS\",\"IP\"]), (.[] | [.objectmeta.name, .status.ownerid, .status.currentstate, .status.ip]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
 
 echo "engineimages.longhorn.io"
-find ./yamls/longhorn -name engineimages.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"STATUS\"]), (.[] | [.objectmeta.name, .status.ownerid, .status.currentstate]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
+find ./yamls/longhorn -name engineimages.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"STATE\",\"IMAGE\", \"RefCount\"]), (.[] | [.objectmeta.name, .status.ownerid, .status.state, .spec.image, .status.refcount]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
 
 echo "engines.longhorn.io"
-find ./yamls/longhorn -name engines.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"MANAGER\",\"STATUS\",\"SIZE\",\"Actual\"]), (.[] | [.objectmeta.name, .status.instancestatus.ownerid, .status.instancestatus.instancemanagername, .status.instancestatus.currentstate, .spec.instancespec.volumesize, .status.currentsize]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
+find ./yamls/longhorn -name engines.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"MANAGER\",\"IMAGE\",\"STATUS\",\"VOL-SIZE\",\"CURRENT-SIZE\"]), (.[] | [.objectmeta.name, .status.instancestatus.ownerid, .status.instancestatus.instancemanagername, .status.instancestatus.currentimage, .status.instancestatus.currentstate, .spec.instancespec.volumesize, .status.currentsize]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
 
 echo "replicas.longhorn.io"
-find ./yamls/longhorn -name replicas.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"MANAGER\",\"STATUS\",\"SIZE\",\"PATH\"]), (.[] | [.objectmeta.name, .status.instancestatus.ownerid, .status.instancestatus.instancemanagername, .status.instancestatus.currentstate, .spec.instancespec.volumesize, .spec.diskpath]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
+find ./yamls/longhorn -name replicas.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"MANAGER\",\"IMAGE\",\"STATUS\",\"SIZE\",\"PATH\"]), (.[] | [.objectmeta.name, .status.instancestatus.ownerid, .status.instancestatus.instancemanagername, .status.instancestatus.currentimage, .status.instancestatus.currentstate, .spec.instancespec.volumesize, .spec.diskpath]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
 
 echo "backingimages.longhorn.io"
 find ./yamls/longhorn -name backingimages.yaml -exec bash -c "cat {} | yq -r '([\"NAME\",\"NODE\",\"STATUS\"]), (.[] | [.objectmeta.name, .status.ownerid, .status.currentstate]) | @tsv' | (sed -u 1q; sort) | column -ts $'\t'" {} \;
